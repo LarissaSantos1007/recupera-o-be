@@ -1,60 +1,45 @@
-import Aluno from "../model/Aluno.js";
-import type { Request, Response } from "express";
+import express from "express";
 
-class AlunoController extends Aluno {
-  static async todos(req: Request, res: Response): Promise<Response> {
-    try {
-      const listarAlunos: Array<Aluno> | null = await Aluno.listarAlunos();
-
-      return res.status(200).json(listarAlunos);
-    } catch (error) {
-      console.error(`Erro ao consultar modelo. ${error}`);
-
-      return res
-        .status(500)
-        .json({ mensagem: "Não foi possivel acessar a lista de clientes." });
+export class AlunoController {
+    async listar(req: express.Request, res: express.Response) {
+        return res.status(200).json({ message: "Listando alunos" });
     }
-  }
 
-  static async novo(req: Request, res: Response): Promise<Response> {
-    try {
-      const dadosAluno = req.body;
+    async buscarPorId(req: express.Request, res: express.Response) {
+        const { id } = req.params;
 
-      const respostaModelo = await Aluno.cadastrarAluno(dadosAluno);
-
-      if (respostaModelo) {
-        return res
-          .status(201)
-          .json({ mensagem: "Aluno cadastrado com sucesso." });
-      } else {
-        return res.status(400).json({ mensagem: "Erro ao cadastrar aluno." });
-      }
-    } catch (error) {
-      console.error(`Erro no modelo. ${error}`);
-
-      return res
-        .status(500)
-        .json({ mensagem: "Não foi possível inserir o aluno" });
+        return res.status(200).json({
+            message: "Aluno encontrado",
+            id
+        });
     }
-  }
 
-  static async aluno(req: Request, res: Response): Promise<Response> {
-    try {
-      const idAluno: number = parseInt(req.params.idAluno as string);
+    async criar(req: express.Request, res: express.Response) {
+        const { nome } = req.body;
 
-      if (isNaN(idAluno) || idAluno <= 0) {
-        return res.status(400).json({ mensagem: "ID inválido." });
-      }
-
-      const respostaModelo = await Aluno.listarAluno(idAluno);
-
-      return res.status(200).json(respostaModelo);
-    } catch (error) {
-      console.error(`Erro ao acessar modelo. ${error}`);
-      return res
-        .status(500)
-        .json({ mensagem: "Não foi possível recuperar o aluno" });
+        return res.status(201).json({
+            message: "Aluno criado",
+            nome
+        });
     }
-  }
+
+    async atualizar(req: express.Request, res: express.Response) {
+        const { id } = req.params;
+        const { nome } = req.body;
+
+        return res.status(200).json({
+            message: "Aluno atualizado",
+            id,
+            nome
+        });
+    }
+
+    async deletar(req: express.Request, res: express.Response) {
+        const { id } = req.params;
+
+        return res.status(200).json({
+            message: "Aluno deletado",
+            id
+        });
+    }
 }
-export default AlunoController;

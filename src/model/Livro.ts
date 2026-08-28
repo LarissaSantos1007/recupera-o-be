@@ -107,33 +107,25 @@ class Livro {
     this.statusLivroEmprestado = _statusLivroEmprestado;
   }
 
-  static async listarLivros(): Promise<Array<Livro> | null> {
+  static async listarLivros(): Promise<Array<object> | null> {
     try {
-      let listaDeLivros: Array<Livro> = [];
-
       const querySelectLivros = `SELECT * FROM livro`;
 
       const respostaBD = await database.query(querySelectLivros);
 
-      respostaBD.rows.forEach((livroBD: any) => {
-        const novoLivro: Livro = new Livro(
-          livroBD.titulo,
-          livroBD.autor,
-          livroBD.editora,
-          livroBD.ano_publicacao,
-          livroBD.isbn,
-          livroBD.quant_total,
-          livroBD.quant_disponivel,
-          livroBD.valor_aquisicao,
-          livroBD.status_livro_emprestado
-        );
+      return respostaBD.rows.map((livroBD: any) => ({
+        idLivro:                 livroBD.id_livro,
+        titulo:                  livroBD.titulo,
+        autor:                   livroBD.autor,
+        editora:                 livroBD.editora,
+        anoPublicacao:           livroBD.ano_publicacao,
+        isbn:                    livroBD.isbn,
+        quant_total:             Number(livroBD.quant_total) || 0,
+        quant_disponivel:        Number(livroBD.quant_disponivel) || 0,
+        valor_aquisicao:         livroBD.valor_aquisicao != null ? Number(livroBD.valor_aquisicao) : null,
+        status_livro_emprestado: livroBD.status_livro_emprestado ?? null,
+      }));
 
-        novoLivro.setIdLivro(livroBD.id_livro);
-
-        listaDeLivros.push(novoLivro);
-      });
-
-      return listaDeLivros;
     } catch (error) {
       console.error(`Erro ao acessar o banco de dados. ${error}`);
       return null;
@@ -151,13 +143,14 @@ class Livro {
         livro.titulo.toUpperCase(),
         livro.autor.toUpperCase(),
         livro.editora.toUpperCase(),
-        livro.anoPublicacao,
+        Number(livro.anoPublicacao),
         livro.isbn,
-        livro.quantTotal,
-        livro.quantDisponivel,
-        livro.valorAquisicao,
-        livro.statusLivroEmprestado,
+        Number(livro.quantTotal) || 0,
+        Number(livro.quantDisponivel) || 0,
+        livro.valorAquisicao != null ? Number(livro.valorAquisicao) : null,
+        livro.statusLivroEmprestado ?? null,
       ]);
+
       if (respostaBD.rows.length > 0) {
         console.info(
           `Livro cadastrado com sucesso. ID: ${respostaBD.rows[0].id_livro}`
@@ -171,4 +164,5 @@ class Livro {
     }
   }
 }
+
 export default Livro;

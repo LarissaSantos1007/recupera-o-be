@@ -1,7 +1,7 @@
 {
   "name": "rec-uc-proj-biblioteca-be",
   "version": "1.0.0",
-  "description": "",
+  "description": "��#\u0000 \u0000r\u0000e\u0000c\u0000u\u0000p\u0000e\u0000r\u0000a\u0000-\u0000o\u0000-\u0000b\u0000e\u0000\r\u0000 \u0000#\u0000 \u0000r\u0000e\u0000c\u0000u\u0000p\u0000e\u0000r\u0000a\u0000-\u0000o\u0000-\u0000b\u0000e\u0000\r\u0000 \u0000#\u0000 \u0000r\u0000e\u0000c\u0000u\u0000p\u0000e\u0000r\u0000a\u0000-\u0000o\u0000-\u0000b\u0000e\u0000\r\u0000 \u0000",
   "main": "index.ts",
   "types": "module",
   "directories": {
@@ -20,8 +20,8 @@
     "@types/dotenv": "^6.1.1",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^25.3.3",
-    "@types/pg": "^8.18.0",
+    "@types/node": "^25.5.2",
+    "@types/pg": "^8.20.0",
     "nodemon": "^3.1.14",
     "ts-node": "^10.9.2",
     "tsx": "^4.21.0",
@@ -31,11 +31,11 @@
     "axios": "^1.13.6",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
+    "dotenv": "^17.4.1",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3",
-    "pg": "^8.19.0",
-    "react-router-dom": "^7.13.1"
+    "pg": "^8.20.0",
+    "react-router-dom": "^7.14.0"
   },
   "repository": {
     "type": "git",

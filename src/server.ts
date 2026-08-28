@@ -2,9 +2,12 @@ import express from "express";
 import cors from "cors";
 import { router } from "./routes.js";
 
-const server = express();
-server.use(cors());
-server.use(express.json());
-server.use(router);
+const app = express();
 
-export { server };
+app.use(cors());
+app.use(express.json());
+app.use(router);
+
+app.listen(3333, () => {
+  console.log("API rodando em http://localhost:3333");
+});

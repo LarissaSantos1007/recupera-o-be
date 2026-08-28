@@ -1,22 +1,25 @@
-import type { EmprestimoDTO } from "../interface/EmprestimoDTO.js";
-import Emprestimo from "../model/Emprestimo.js";
-import type { Request, Response } from "express";
+import express from "express";
+type Request = express.Request;
+type Response = express.Response;
 
-class EmprestimoController extends Emprestimo {
-  static async todos(req: Request, res: Response): Promise<Response> {
+import Emprestimo from "../model/Emprestimo.js";
+
+class EmprestimoController {
+
+  static async todos(req: Request, res: Response) {
     try {
-      const listarEmprestimos: Array<Emprestimo> | null =
-        await Emprestimo.listarEmprestimos();
+      const listarEmprestimos = await Emprestimo.listarEmprestimos();
 
       return res.status(200).json(listarEmprestimos);
     } catch (error) {
-      console.error(`Erro ao consultar modelo. ${error}`);
+      console.error(error);
 
-      return res
-        .status(500)
-        .json({ mensagem: "Não foi possivel acessar a lista de Emprestimos." });
+      return res.status(500).json({
+        mensagem: "Não foi possivel acessar a lista de Emprestimos."
+      });
     }
   }
+
 }
 
 export default EmprestimoController;

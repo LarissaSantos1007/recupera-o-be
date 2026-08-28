@@ -1,41 +1,30 @@
-import Livro from "../model/Livro.js";
-import type { Request, Response } from "express";
+import express from "express";
+type Request = express.Request;
+type Response = express.Response;
 
-class LivroController extends Livro {
-  static async todos(req: Request, res: Response): Promise<Response> {
-    try {
-      const listarLivros: Array<Livro> | null = await Livro.listarLivros();
+class LivroController {
 
-      return res.status(200).json(listarLivros);
-    } catch (error) {
-      console.error(`Erro ao consultar modelo. ${error}`);
-
-      return res
-        .status(500)
-        .json({ mensagem: "Não foi possivel acessar a lista de livros." });
-    }
+  static async todos(req: Request, res: Response) {
+    return res.status(200).json({ mensagem: "Lista de livros" });
   }
 
-  static async novo(req: Request, res: Response): Promise<Response> {
-    try {
-      const dadosRecebidosLivro = req.body;
+  static async cadastrar(req: Request, res: Response) {
+    const { titulo } = req.body;
 
-      const respostaModelo = await Livro.cadastrarLivro(dadosRecebidosLivro);
+    return res.status(201).json({
+      mensagem: "Livro cadastrado",
+      titulo
+    });
+  }
 
-      if (respostaModelo) {
-        return res
-          .status(201)
-          .json({ mensagem: "Livro cadastrado com sucesso." });
-      } else {
-        return res.status(400).json({ mensagem: "Erro ao cadastrar livro." });
-      }
-    } catch (error) {
-      console.error(`Erro no modelo. ${error}`);
+  static async livro(req: Request, res: Response) {
+    const { id } = req.params;
 
-      return res
-        .status(500)
-        .json({ mensagem: "Não foi possível inserir o livro" });
-    }
+    return res.status(200).json({
+      mensagem: "Livro encontrado",
+      id
+    });
   }
 }
+
 export default LivroController;
